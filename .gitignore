@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Sekrety
+.env
+*.env
+secrets/
+
+# Dane (odtwarzane generatorem)
+data/generated/*
+!data/generated/.gitkeep
+data/raw/*.zip
+*.parquet
+*.db
+*.duckdb
+
+# dbt
+target/
+dbt_packages/
+logs/
+
+# Power BI (commitujemy PBIP/TMDL, nie binaria i cache)
+*.pbix
+.pbi/localSettings.json
+.pbi/cache.abf
+
+# System / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
