@@ -12,8 +12,6 @@ Projekt zaliczeniowy: rozwiązanie analityczne dla firmy szkoleniowej **EduPro**
 | **Filip Pocentek** | Developer | Modelowanie hurtowni danych (ERD, SCD2), SQL, testy danych |
 | **Jan Rojewski** | Developer | Python, generator danych i ETL, raportowanie BI |
 
-Product Owner biznesowy: prowadzący zajęcia.
-
 ## Linki
 
 - **Tablica Trello:** [https://trello.com/b/BKMZIot8/edupro-analytics](https://trello.com/b/BKMZIot8/edupro-analytics)
