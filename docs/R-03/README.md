@@ -56,7 +56,7 @@ datę rozpoczęcia edycji kursu.
 
 ## 5. Diagram ERD
 
-![Diagram ERD hurtowni EduPro](EduPro_ERD.png)
+![Diagram ERD hurtowni EduPro](EduPro_ERD.png.png)
 
 Kod źródłowy modelu: [EduPro_ERD.dbml](EduPro_ERD.dbml)
 
