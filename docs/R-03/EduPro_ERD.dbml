@@ -1,0 +1,103 @@
+Project EduPro {
+  Note: 'Model hurtowni danych platformy EduPro'
+}
+
+// TABELE WYMIAROW
+
+Table Dim_Data {
+  id_daty int [pk]
+  data date [not null, unique]
+  dzien int
+  miesiac int
+  kwartal int
+  rok int
+}
+
+Table Dim_Kurs {
+  id_kursu int [pk, increment]
+  nazwa_kursu varchar(150)
+  kategoria varchar(100)
+  poziom_trudnosci varchar(50)
+  opis varchar(500)
+}
+
+Table Dim_Uczestnik {
+  id_uczestnika int [pk, increment]
+  imie varchar(50)
+  nazwisko varchar(100)
+  miasto varchar(100)
+  typ_klienta varchar(50)
+}
+
+Table Dim_Prowadzacy {
+  id_prowadzacego int [pk, increment]
+  imie varchar(50)
+  nazwisko varchar(100)
+  specjalizacja varchar(100)
+}
+
+Table Dim_Format {
+  id_formatu int [pk, increment]
+  nazwa_formatu varchar(50)
+  opis varchar(250)
+}
+
+Table Dim_Lokalizacja {
+  id_lokalizacji int [pk, increment]
+  miasto varchar(100)
+  kraj varchar(100)
+  adres varchar(200)
+}
+
+// TABELE FAKTOW
+
+Table Fact_Zapisy {
+  id_zapisu int [pk, increment]
+  id_edycji int [not null]
+  id_daty int [not null]
+  id_kursu int [not null]
+  id_uczestnika int [not null]
+  id_formatu int [not null]
+  id_lokalizacji int [not null]
+  liczba_zapisow int [default: 1]
+  kwota_zapisu decimal(12,2)
+  czy_ukonczono boolean
+
+  Note: 'Ziarno: pojedynczy zapis uczestnika na edycje kursu'
+
+  indexes {
+    (id_edycji, id_uczestnika) [unique]
+  }
+}
+
+Table Fact_Szkolenia {
+  id_edycji int [pk]
+  id_daty int [not null]
+  id_kursu int [not null]
+  id_prowadzacego int [not null]
+  id_formatu int [not null]
+  id_lokalizacji int [not null]
+  liczba_szkolen int [default: 1]
+  liczba_uczestnikow int
+  liczba_obecnych int
+  czas_trwania_godz decimal(8,2)
+  koszt_szkolenia decimal(12,2)
+
+  Note: 'Ziarno: pojedyncza zrealizowana edycja kursu'
+}
+
+// RELACJE - FACT_ZAPISY
+
+Ref: Fact_Zapisy.id_daty > Dim_Data.id_daty
+Ref: Fact_Zapisy.id_kursu > Dim_Kurs.id_kursu
+Ref: Fact_Zapisy.id_uczestnika > Dim_Uczestnik.id_uczestnika
+Ref: Fact_Zapisy.id_formatu > Dim_Format.id_formatu
+Ref: Fact_Zapisy.id_lokalizacji > Dim_Lokalizacja.id_lokalizacji
+
+// RELACJE - FACT_SZKOLENIA
+
+Ref: Fact_Szkolenia.id_daty > Dim_Data.id_daty
+Ref: Fact_Szkolenia.id_kursu > Dim_Kurs.id_kursu
+Ref: Fact_Szkolenia.id_prowadzacego > Dim_Prowadzacy.id_prowadzacego
+Ref: Fact_Szkolenia.id_formatu > Dim_Format.id_formatu
+Ref: Fact_Szkolenia.id_lokalizacji > Dim_Lokalizacja.id_lokalizacji
