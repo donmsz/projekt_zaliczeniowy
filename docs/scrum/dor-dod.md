@@ -1,23 +1,26 @@
-# Definition of Ready i Definition of Done
+# Definition of Ready (DoR) i Definition of Done (DoD)
 
-_Wersja robocza – do zatwierdzenia przez zespół w Sprincie 0._
+_Zatwierdzone przez zespół w Sprincie 0 (listopad 2026)._
 
-## Definition of Ready (historyjka może wejść do sprintu, gdy)
+## Definition of Ready (DoR)
 
-- [ ] Zapisana w formacie „Jako … chcę … aby …”.
-- [ ] Ma kryteria akceptacji w formacie Given/When/Then.
-- [ ] Ma priorytet MoSCoW i przypisaną epikę.
-- [ ] Jest oszacowana w story points (Planning Poker, Fibonacci).
-- [ ] Ma powiązanie z wymaganiem z katalogu (FR-xx / NFR-xx).
-- [ ] Nie przekracza 8 SP – większe dzielimy.
-- [ ] Zależności i potrzebne dane są znane.
+Zadanie z Product Backlogu może wejść do Sprint Backlogu, gdy spełnia wszystkie poniższe warunki:
 
-## Definition of Done (historyjka jest skończona, gdy)
+- [x] Opis wskazuje cel biznesowy zadania (dla historyjek użytkownika zalecany format „Jako … chcę … aby …”).
+- [x] Określono jasne, weryfikowalne kryteria akceptacji (lista warunków lub format Given/When/Then).
+- [x] Karta posiada priorytet MoSCoW (`Must` / `Should` / `Could`) oraz przypisaną epikę (`E1`–`E7`).
+- [x] Zadanie zostało oszacowane w story points (Planning Poker, skala Fibonacciego).
+- [x] Wskazano powiązanie z wymaganiem projektu (`R-xx`, `NFR-xx` lub KPI), jeśli dotyczy.
+- [x] Rozmiar zadania nie przekracza **8 SP** – zadania większe (np. 13 SP) dzielimy przed rozpoczęciem sprintu.
+- [x] Znane są zależności od innych zadań oraz wymagane dane wejściowe.
 
-- [ ] Kod jest w repozytorium, na gałęzi zmergowanej do `main` przez PR.
-- [ ] PR przejrzała co najmniej 1 inna osoba.
-- [ ] Testy (w tym testy jakości danych) przechodzą.
-- [ ] Kryteria akceptacji zweryfikowane.
-- [ ] Zaktualizowana dokumentacja (słownik danych/KPI, README, ADR – jeśli dotyczy).
-- [ ] Zaktualizowana macierz śledzenia (wymaganie → historyjka → element → test).
-- [ ] Przyrost da się zademonstrować na Sprint Review.
+## Definition of Done (DoD)
+
+Zadanie ze Sprint Backlogu może zostać przeniesione do kolumny `Done`, gdy spełnia wszystkie poniższe warunki:
+
+- [x] Kod, diagramy lub dokumenty znajdują się w repozytorium GitHub i zostały zmergowane do `main` przez Pull Request (z numerem karty w commicie/PR).
+- [x] Pull Request został sprawdzony i zaakceptowany przez co najmniej jedną inną osobę z zespołu (Code Review).
+- [x] Testy (w tym testy jakości danych, jeśli dotyczą zadania) przechodzą bez błędów.
+- [x] Wszystkie kryteria akceptacji zapisane na karcie Trello zostały zweryfikowane.
+- [x] Dokumentacja projektowa została uzupełniona lub zaktualizowana (README, ADR, słownik danych/KPI, macierz śledzenia – jeśli dotyczy).
+- [x] Przyrost jest gotowy do zademonstrowania na Sprint Review.
