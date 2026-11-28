@@ -1,5 +1,5 @@
 Project EduPro {
-  Note: 'Model hurtowni danych platformy EduPro'
+  Note: 'Model hurtowni danych EduPro - S01-04 / R-03'
 }
 
 // TABELE WYMIAROW
@@ -15,59 +15,102 @@ Table Dim_Data {
 
 Table Dim_Kurs {
   id_kursu int [pk, increment]
+  kod_kursu varchar(50) [not null]
   nazwa_kursu varchar(150)
   kategoria varchar(100)
   poziom_trudnosci varchar(50)
   opis varchar(500)
+  wazny_od datetime
+  wazny_do datetime
+  czy_aktualny boolean
 }
 
 Table Dim_Uczestnik {
   id_uczestnika int [pk, increment]
-  imie varchar(50)
-  nazwisko varchar(100)
-  miasto varchar(100)
+  kod_uczestnika varchar(128) [not null, unique]
   typ_klienta varchar(50)
+
+  Note: 'Pseudonimizowany identyfikator uczestnika. Bez imienia i nazwiska.'
 }
 
 Table Dim_Prowadzacy {
   id_prowadzacego int [pk, increment]
+  kod_prowadzacego varchar(50) [not null]
   imie varchar(50)
   nazwisko varchar(100)
   specjalizacja varchar(100)
+  wazny_od datetime
+  wazny_do datetime
+  czy_aktualny boolean
 }
 
 Table Dim_Format {
   id_formatu int [pk, increment]
+  kod_formatu varchar(50) [not null, unique]
   nazwa_formatu varchar(50)
   opis varchar(250)
+
+  Note: 'Formaty: stacjonarny, online na zywo, e-learning'
 }
 
 Table Dim_Lokalizacja {
   id_lokalizacji int [pk, increment]
+  kod_lokalizacji varchar(50) [not null]
   miasto varchar(100)
   kraj varchar(100)
   adres varchar(200)
+  wazny_od datetime
+  wazny_do datetime
+  czy_aktualny boolean
+
+  Note: 'Rekord techniczny dla kursow online i e-learning'
+}
+
+Table Dim_Edycja {
+  id_edycji int [pk, increment]
+  kod_edycji varchar(50) [not null, unique]
+  status_edycji varchar(30) [not null]
+  limit_miejsc int
+  data_rozpoczecia date
+  data_zakonczenia date
+
+  Note: 'Statusy: planowana, zrealizowana, odwolana'
+}
+
+Table Dim_Klient {
+  id_klienta int [pk, increment]
+  kod_klienta varchar(50) [not null]
+  id_klienta_b2b varchar(50)
+  typ_klienta varchar(20)
+  segment_klienta varchar(100)
+  wazny_od datetime
+  wazny_do datetime
+  czy_aktualny boolean
+
+  Note: 'Wymiar klienta B2B/B2C'
 }
 
 // TABELE FAKTOW
 
 Table Fact_Zapisy {
   id_zapisu int [pk, increment]
+  kod_zapisu varchar(50) [not null, unique]
   id_edycji int [not null]
   id_daty int [not null]
   id_kursu int [not null]
   id_uczestnika int [not null]
+  id_klienta int [not null]
   id_formatu int [not null]
   id_lokalizacji int [not null]
   liczba_zapisow int [default: 1]
-  kwota_zapisu decimal(12,2)
+  kwota_brutto decimal(12,2)
+  kwota_rabatu decimal(12,2) [default: 0]
+  kwota_netto decimal(12,2)
+  kwota_zwrotu decimal(12,2) [default: 0]
+  status_zapisu varchar(30)
   czy_ukonczono boolean
 
-  Note: 'Ziarno: pojedynczy zapis uczestnika na edycje kursu'
-
-  indexes {
-    (id_edycji, id_uczestnika) [unique]
-  }
+  Note: 'Ziarno: pojedynczy zapis uczestnika na konkretna edycje kursu'
 }
 
 Table Fact_Szkolenia {
@@ -83,19 +126,22 @@ Table Fact_Szkolenia {
   czas_trwania_godz decimal(8,2)
   koszt_szkolenia decimal(12,2)
 
-  Note: 'Ziarno: pojedyncza zrealizowana edycja kursu'
+  Note: 'Ziarno: pojedyncza zaplanowana edycja kursu, niezaleznie od jej statusu'
 }
 
 // RELACJE - FACT_ZAPISY
 
+Ref: Fact_Zapisy.id_edycji > Dim_Edycja.id_edycji
 Ref: Fact_Zapisy.id_daty > Dim_Data.id_daty
 Ref: Fact_Zapisy.id_kursu > Dim_Kurs.id_kursu
 Ref: Fact_Zapisy.id_uczestnika > Dim_Uczestnik.id_uczestnika
+Ref: Fact_Zapisy.id_klienta > Dim_Klient.id_klienta
 Ref: Fact_Zapisy.id_formatu > Dim_Format.id_formatu
 Ref: Fact_Zapisy.id_lokalizacji > Dim_Lokalizacja.id_lokalizacji
 
 // RELACJE - FACT_SZKOLENIA
 
+Ref: Fact_Szkolenia.id_edycji - Dim_Edycja.id_edycji
 Ref: Fact_Szkolenia.id_daty > Dim_Data.id_daty
 Ref: Fact_Szkolenia.id_kursu > Dim_Kurs.id_kursu
 Ref: Fact_Szkolenia.id_prowadzacego > Dim_Prowadzacy.id_prowadzacego
